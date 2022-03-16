@@ -1,0 +1,32 @@
+<%= form_with(model: requete, local: true) do |form| %>
+  <% if requete.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(requete.errors.count, "error") %> prohibited this requete from being saved:</h2>
+
+      <ul>
+      <% requete.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :etudiant_id %>
+    <%= form.number_field :etudiant_id, id: :requete_etudiant_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :maitre_id %>
+    <%= form.number_field :maitre_id, id: :requete_maitre_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :status %>
+    <%= form.text_field :status, id: :requete_status %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

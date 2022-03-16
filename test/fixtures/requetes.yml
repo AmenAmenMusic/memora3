@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  etudiant_id: 1
+  maitre_id: 1
+  status: MyString
+
+two:
+  etudiant_id: 1
+  maitre_id: 1
+  status: MyString

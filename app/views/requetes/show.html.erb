@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Etudiant:</strong>
+  <%= @requete.etudiant_id %>
+</p>
+
+<p>
+  <strong>Maitre:</strong>
+  <%= @requete.maitre_id %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @requete.status %>
+</p>
+
+<%= link_to 'Edit', edit_requete_path(@requete) %> |
+<%= link_to 'Back', requetes_path %>

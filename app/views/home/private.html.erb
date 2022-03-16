@@ -1,0 +1,36 @@
+
+
+<div class="row h-75 w-100">
+  <div class="col-12">
+  
+  <%= link_to "Retour", root_path, class:"btn btn-outline-primary" %>
+   <br> <br>
+  <p class="h3 w-100 mb-5">Etudiants acceptés</h3>
+  <table class="table table-hover mt-4">
+    <thead>
+      <tr>
+        <th class="text-info">Noms des étudiants</th>
+      </tr>
+    </thead>
+
+    <tbody>
+    <%= paginate Requete.where( :status => "accepté").where( :maitre_id => current_maitre.id ).page(params[:page]).per(2), theme: 'twitter-bootstrap-4' %>
+    <% Requete.where( :status => "accepté").where( :maitre_id => current_maitre.id ).page(params[:page]).per(2).each do |requete| %>
+
+      <tr class="">
+        <% if requete.maitre_id == current_maitre.id %>
+        <% if requete.status == "accepté" %>
+        <% Etudiant.all.each do |etudiant| %>
+        <% if requete.etudiant_id == etudiant.id %>
+        <td><%= etudiant.nom + " "+ etudiant.prenom %></td>
+        <% end %>
+        <% end %>
+        <% end %>
+        <% end %>
+      </tr>
+
+      <% end %>
+    </tbody>
+  </table>
+  </div>
+</div>

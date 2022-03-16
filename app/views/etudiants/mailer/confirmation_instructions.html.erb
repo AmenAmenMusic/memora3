@@ -1,0 +1,7 @@
+<p><strong>Bienvenue <%= @email %>!</strong></p>
+<img src="<%= asset_path 'memora2.png'%>" class="" height="300" />
+
+
+<p>Vous pouvez confirmer l'email de votre compte <strong>"Memora"</strong> via le lien ci-dessous:</p>
+
+<p><%= link_to 'Confirmer mon compte', confirmation_url(@resource, confirmation_token: @token) %></p>

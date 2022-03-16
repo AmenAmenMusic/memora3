@@ -1,0 +1,141 @@
+
+<div class="row  h-100 justify-content-center align-items-center ">
+<div class="col-md-8  ">
+<div class="row h-100">
+<div class=" col-md-4 bg-dark text-light">
+<h2 class= " text-center my-5"><strong>Modifier vos Informations</strong></h2>
+
+</div>
+
+
+
+  <div class="px-5 col-md-8 border alert text-dark">
+<br />
+
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+<br />
+  <div class="field">
+  <div class="row ">
+  <div class="col-md-6 h6">
+    <%= f.label :nom %><br />
+      </div>
+      <div class="col-md-6 ">
+    <%= f.text_field :nom, autofocus: true, class: "form-control form-control-lg" %>
+      </div>
+  </div>
+    </div>
+      
+  <br />
+<div class="field">
+ <div class="row ">
+  <div class="col-md-6 h6 ">
+    <%= f.label :prenom %><br />
+    </div>
+    <div class="col-md-6 ">
+    <%= f.text_field :prenom, autofocus: true, class: "form-control form-control-lg" %>
+  </div>
+  </div>
+  </div>
+<br />
+
+  <div class="field">
+   <div class="row ">
+  <div class="col-md-6 h6">
+    <%= f.label :date_naissance %><br />
+    </div>
+    <div class="col-md-6 ">
+    <%= f.date_field :date_naissance, autofocus: true, class: "form-control form-control-lg" %>
+  </div>
+  </div>
+  </div>
+<br />
+<div class="field">
+  <div class="row ">
+  <div class="col-md-6 h6">
+    <%= f.label :nom_filiere %><br />
+    </div>
+    <div class="col-md-6">
+    
+    <%=  f.select :nom_filiere,    options_for_select(Filiere.all.map { |filiere| [filiere.nom_filiere] }), {}, class: "form-control form-control-lg"   %>
+    
+  </div>
+  </div>
+  </div>
+
+<br />
+  <div class="field">
+  <div class="row ">
+  <div class="col-md-6 h6">
+    <%= f.label :email %><br />
+    </div>
+    <div class="col-md-6 ">
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control form-control-lg" %>
+  </div>
+  </div>
+  </div>
+
+  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+  <% end %>
+<br />
+  <div class="field">
+  <div class="row ">
+  <div class="col-md-6 h6">
+    <%= f.label :password %> <i>(laissez vide si vous ne voulez pas le changer)</i><br />
+     </div>
+    <div class="col-md-6 ">
+    <%= f.password_field :password, autocomplete: "new-password", class: "form-control form-control-lg" %>
+    <% if @minimum_password_length %>
+      
+      <em><%= @minimum_password_length %> charactères minimum</em>
+    <% end %>
+     </div>
+      </div>
+  </div>
+<br />
+  <div class="field">
+  
+  <div class="row ">
+  <div class="col-md-6 h6">
+    <%= f.label :password_confirmation %><br />
+    </div>
+    <div class="col-md-6 ">
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control form-control-lg" %>
+  </div>
+  </div>
+  </div>
+
+  <br />
+
+  <div class="field">
+  <div class="row ">
+  <div class="col-md-6 h6">
+    <%= f.label :current_password %> <i>(nous avons besoin de votre mot de passe actuel pour confirmer vos modifications)</i><br />
+    </div>
+    <div class="col-md-6 ">
+    <%= f.password_field :current_password, autocomplete: "current-password", class: "form-control form-control-lg" %>
+  </div>
+  </div>
+  </div>
+<br /><br />
+  <div class="actions offset">
+    <%= f.submit "Enregistrer", class: "btn btn-primary" %>
+  </div>
+<% end %>
+<br />
+
+<br />
+<%= link_to "Retour", :back %>
+
+<br />
+<br />
+  </div>
+</div>
+ </div>
+</div>
+
+
+
+

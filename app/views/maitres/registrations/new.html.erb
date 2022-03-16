@@ -1,0 +1,105 @@
+
+<br />
+<div class="row  h-100 justify-content-center align-items-center ">
+<div class="col-md-8  ">
+
+<div class="row h-100">
+<div class=" col-md-4 bg-dark text-light">
+<h2 class= " text-center my-5"><strong>S'inscrire sur Memora</strong></h2>
+
+</div>
+
+
+  <div class="px-5 col-md-8 alert border text-dark">
+<br />
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+   <br />
+<div class="field">
+<div class="row ">
+  <div class="col-md-7 h5">
+    <%= f.label :nom %><br />
+    </div>
+    <div class="col-md-5 ">
+    <%= f.text_field :nom, autofocus: true, class: "form-control form-control-lg" %>
+    </div>
+    </div>
+  </div>
+  <br />
+<div class="field">
+<div class="row ">
+  <div class="col-md-7 h5">
+    <%= f.label :prenom %><br />
+     </div>
+    <div class="col-md-5 ">
+    <%= f.text_field :prenom, autofocus: true, class: "form-control form-control-lg" %>
+  </div>
+  </div>
+  </div>
+<br />
+<div class="field">
+<div class="row ">
+  <div class="col-md-7 h5">
+    <%= f.label :niveau_etude %><br />
+    </div>
+    <div class="col-md-5 ">
+    <%=  f.select :niveau_etude,    options_for_select([   "Licence", " Master", "Doctorat", "Agregation"  ] ), {}, class: "form-control form-control-lg"%> 
+    
+  </div>
+  </div>
+  </div>
+
+<br />
+  <div class="field">
+  <div class="row ">
+  <div class="col-md-7 h5">
+    <%= f.label :email %><br />
+     </div>
+    <div class="col-md-5 ">
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control form-control-lg" %>
+  </div>
+  </div>
+  </div>
+<br />
+  <div class="field">
+  <div class="row ">
+  <div class="col-md-7 h5">
+    <%= f.label :password %>
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> charactères minimum)</em>
+    <% end %><br />
+    </div>
+    <div class="col-md-5 ">
+    <%= f.password_field :password, autocomplete: "new-password", class: "form-control form-control-lg" %>
+  </div>
+  </div>
+  </div>
+<br />
+  <div class="field">
+  <div class="row ">
+  <div class="col-md-7 h5">
+    <%= f.label :password_confirmation %><br />
+    </div>
+    <div class="col-md-5 ">
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control form-control-lg" %>
+  </div>
+  </div>
+  </div>
+<br />
+  <div class="actions">
+    <%= f.submit "S'inscrire", class: "btn btn-primary" %>
+  </div>
+<% end %>
+<br />
+<%= render "maitres/shared/links" %>
+
+<br />
+  </div>
+</div>
+</div>
+</div>
+
+
+
+

@@ -1,0 +1,281 @@
+<%if etudiant_signed_in?%>
+
+<div class="row h-75 ">
+
+
+  <div class="col-md-4 ">
+    <strong>Nom</strong>
+    <div>
+      <%= current_etudiant.nom %> <%= current_etudiant.prenom %>
+     
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-4">
+    <strong>Votre filière</strong>
+    <div>
+      <%= current_etudiant.nom_filiere %>
+    </div>
+  </div>
+  
+  <div class="col-md-4 mb-4">
+   <%= link_to 'Modifier votre profil', edit_etudiant_registration_path ,class:"nav-link" %>
+   <br /><br />
+   </div>
+<br /><br />
+
+<%
+@etudiant_valid= []
+Requete.where(:status => "accepté" ).all.each do |reqacpt|
+@etudiant_valid << reqacpt.etudiant_id
+end
+%>
+
+<%  if @etudiant_valid.include? current_etudiant.id %>
+<% Requete.where(:status => "en attente" ).where(:etudiant_id => current_etudiant.id).all.each do |reqfin| 
+
+reqfin.status= "suspendu"
+reqfin.save
+
+    end
+
+%>
+<% Requete.where(:status => "accepté" ).where(:etudiant_id => current_etudiant.id).all.each do |reqa| %>
+<% Maitre.where(:id => reqa.maitre_id ).all.each do |maitre| %>
+<div class="col-12">
+<p class=""><strong>Votre Maitre Mémoire est: </strong> </p>
+
+<p><%= maitre.nom + " "+ maitre.prenom %></p>
+</div>
+<% end %>
+<% end %>
+<% else %>
+ 
+  <div class="col-12">
+  <p class=""><strong>Choisissez un maître de mémoire</strong></p>
+    <%= form_tag "request",  method: "post" do%>
+    <div class="form-group mt-3 col-12">
+    <div class="row">
+      
+      <select name="maitre_id" class= " col-3 form-control form-control-lg">
+      
+        <% 
+        @maitres_invalid = []
+        Requete.where(etudiant_id: current_etudiant.id).where(status: "accepté").or(Requete.where(etudiant_id: current_etudiant.id).where(status: "en attente")).all.each do |requete|
+        
+        @maitres_invalid << requete.maitre_id 
+        
+        %>
+        
+<% end %>
+        <% Maitre.all.each do |maitre| %>
+        <% if @maitres_invalid.include? maitre.id %>
+        <% else %>
+        
+        <option value="<%= maitre.id %>"> <%= maitre.nom + " "+ maitre.prenom %> </option>
+        
+        <% end %>
+        <% end %>
+      </select>
+     
+      <input type="hidden" value="<%= current_etudiant.id %>" name="etudiant_id" />
+      <input type="submit" value="Choisir le maitre" class="btn btn-primary" />
+    </div>
+    </div>
+  </div>
+  <%end%>
+  <% end %>
+
+  <div class="col-md-6">
+  <br /><br />
+    <p class=" mb-4"><strong> Demandes envoyées</strong></p>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Maitre de mémoire</th>
+          <th>Statut</th>
+        </tr>
+      </thead>
+
+      <tbody>
+    <%= paginate Requete.where( :etudiant_id => current_etudiant.id ).page(params[:page]).per(5), theme: 'twitter-bootstrap-4' %>
+    <% Requete.where( :etudiant_id => current_etudiant.id ).page(params[:page]).per(5).each do |requete| %>
+    <% if requete.status == "suspendu" %>
+
+        <tr>
+          <% if requete.etudiant_id == current_etudiant.id %>
+          <% Maitre.all.each do |maitre| %>
+          <% if requete.maitre_id == maitre.id %>
+          <td><%= maitre.nom + " "+ maitre.prenom %></td>
+          <td class="text-warning"><%= requete.status %></td>
+          <% end %>
+
+          <% end %>
+
+          <% end %>
+        </tr>
+        <% end %>
+
+
+        <% if requete.status == "en attente" %>
+
+        <tr >
+          <% if requete.etudiant_id == current_etudiant.id %>
+          <% Maitre.all.each do |maitre| %>
+          <% if requete.maitre_id == maitre.id %>
+          <td><%= maitre.nom + " "+ maitre.prenom %></td>
+          <td class="text-info" ><%= requete.status %></td>
+          <% end %>
+
+          <% end %>
+
+          <% end %>
+        </tr>
+        <% end %>
+
+        <% if requete.status == "refusé" %>
+
+        <tr  >
+          <% if requete.etudiant_id == current_etudiant.id %>
+          <% Maitre.all.each do |maitre| %>
+          <% if requete.maitre_id == maitre.id %>
+          <td><%= maitre.nom + " "+ maitre.prenom %></td>
+          <td class="text-danger"><%= requete.status %></td>
+          <% end %>
+
+          <% end %>
+
+          <% end %>
+        </tr>
+        <% end %>
+
+        <% if requete.status == "accepté" %>
+
+        <tr >
+          <% if requete.etudiant_id == current_etudiant.id %>
+          <% Maitre.all.each do |maitre| %>
+          <% if requete.maitre_id == maitre.id %>
+          <td><%= maitre.nom + " "+ maitre.prenom %></td>
+          <td class="text-success"><%= requete.status %></td>
+          <% end %>
+
+          <% end %>
+
+          <% end %>
+        </tr>
+        <% end %>
+
+        <% end %>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<% else  %>
+
+
+
+<%if maitre_signed_in?%>
+<div class="row h-75">
+
+  <div class="col-md-6">
+  
+  
+    <strong>Nom & Prénom</strong>
+  
+
+    <div>
+      <%= current_maitre.nom %> <%= current_maitre.prenom %>
+      <br /><br />
+    </div>
+
+  </div>
+  <div class="col-md-6">
+
+    <nav class="navbar navbar-light bg-light">
+      <ul class="navbar-nav w-100">
+        <li class="nav-item active">
+          
+        <li class="nav-item active">
+          <%= link_to 'Modifier le profil', edit_maitre_registration_path ,class:"nav-link btn btn-secondary text-white" %>
+          <br>
+          <%= link_to 'Etudiants acceptés', home_private_path ,class:"nav-link btn btn-warning" %>
+        </li>
+        </li>
+      </ul>
+    </nav>
+    <br /><br />
+  </div>
+
+  <div class="col-md-8">
+  
+ <strong>Les Demandes</strong>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Nom Etudiant</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      
+<%= paginate Requete.where( :status => "en attente").where( :maitre_id => current_maitre.id ).page(params[:page]).per(4), theme: 'twitter-bootstrap-4'  %>
+
+<% 
+@etudiant_invalid= []
+Requete.where(:status => "accepté" ).all.each do |reqacpt|
+@etudiant_invalid << reqacpt.etudiant_id
+end
+
+Requete.where( :status => "en attente").where( :maitre_id => current_maitre.id ).page(params[:page]).per(4).each do |requete| 
+ if @etudiant_invalid.include? requete.etudiant_id
+         else 
+%>
+
+        <tr>
+          <% if requete.maitre_id == current_maitre.id %>
+          <% if requete.status == "en attente" %>
+          <% Etudiant.all.each do |etudiant| %>
+          <% if requete.etudiant_id == etudiant.id %>
+          <td><%= etudiant.nom + " "+ etudiant.prenom %></td>
+          <% end %>
+          <% end %>
+          <td>
+            <%= link_to 'Accepter', accepter_path(requete.id), class:"btn col-md-5 btn-success btn-sm mb-1" , method: :accepter%>
+            <%= link_to 'Refuser', refuser_path(requete.id), class:"btn col-md-5 btn-danger btn-sm mb-1" , method: :refuser%>
+
+
+          </td>
+          <% end %>
+          <% end %>
+        </tr>
+<% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div> 
+</div>
+
+
+
+
+<% else %>
+
+<div>
+  <div class="d-flex flex-column justify-content-center align-items-center h-100">
+  <img src="<%= asset_path 'memora2.png'%>" class="col-md-5" height="" />
+    <h1 class="mt-4 text-center">BIENVENUE SUR MEMORA</h1>
+    <h3 class="font-weight-lighter text-center mt-3">Vous êtes ?</h3>
+    <div class="btn-group" role="group" aria-label="Basic example">
+      <%= link_to 'Etudiant', new_etudiant_session_path, class:"btn btn-info" %>
+      <%= link_to 'Maitre Mémoire', new_maitre_session_path,  class:"btn btn-warning" %>
+    </div>
+  </div>
+</div>
+
+
+
+<% end %>
+<% end %>
