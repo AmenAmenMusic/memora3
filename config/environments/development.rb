@@ -62,12 +62,13 @@ config.action_mailer.asset_host = config.action_controller.asset_host
 
 
   # mailer
+  config.action_mailer.delivery_method = :letter_opener
+  config.action_mailer.perform_deliveries = true
+  # config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.smtp_settings = {
 
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-
-    address: 'localhost',
-    port: 1025
-    #domain: 'localhost'
-  }
+  #   address: 'localhost',
+  #   port: 1025
+  #   #domain: 'localhost'
+  # }
 end
